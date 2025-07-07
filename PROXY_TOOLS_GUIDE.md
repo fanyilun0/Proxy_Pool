@@ -404,13 +404,11 @@ rm ~/Library/LaunchAgents/com.proxypool.*.plist
 ## 📞 技术支持
 
 ### 文件位置
-- 项目根目录: `/Users/username/Desktop/github-repos/Proxy_Pool/`
 - 代理池目录: `/Users/username/proxy_pool/`
 - 服务配置: `~/Library/LaunchAgents/com.proxypool.*.plist`
 
 ### 相关文档
 - [mihomo官方文档](https://github.com/MetaCubeX/mihomo)
-- [MacOS代理池搭建指南](README_MacOS.md)
 - [环境配置说明](config.example.env)
 
 ### 快速参考
