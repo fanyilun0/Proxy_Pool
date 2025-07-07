@@ -27,10 +27,11 @@ class EnhancedProxyManager:
         self.bin_dir = self.base_dir / "bin"
         self.providers_dir = self.base_dir / "proxy_providers"
         self.valid_dir = self.base_dir / "valid_providers"
+        self.logs_dir = self.base_dir / "logs"
         self.launch_agents_dir = Path.home() / "Library" / "LaunchAgents"
         
         # 创建目录
-        for dir_path in [self.config_dir, self.bin_dir, self.providers_dir, self.valid_dir]:
+        for dir_path in [self.config_dir, self.bin_dir, self.providers_dir, self.valid_dir, self.logs_dir]:
             dir_path.mkdir(parents=True, exist_ok=True)
     
     def check_port_available(self, port):
@@ -286,8 +287,8 @@ class EnhancedProxyManager:
             ],
             'RunAtLoad': True,
             'KeepAlive': True,
-            'StandardOutPath': str(self.base_dir / f"{service_name}.log"),
-            'StandardErrorPath': str(self.base_dir / f"{service_name}.error.log"),
+            'StandardOutPath': str(self.logs_dir / f"{service_name}.log"),
+            'StandardErrorPath': str(self.logs_dir / f"{service_name}.error.log"),
             'WorkingDirectory': str(self.base_dir)
         }
         

@@ -14,6 +14,7 @@ class ProxyServiceManager:
     def __init__(self, base_dir=None):
         self.base_dir = Path(base_dir or Path.home() / "proxy_pool")
         self.services_file = self.base_dir / "services.json"
+        self.logs_dir = self.base_dir / "logs"
         self.launch_agents_dir = Path.home() / "Library" / "LaunchAgents"
     
     def load_services(self):
@@ -200,8 +201,8 @@ class ProxyServiceManager:
                 print(f"❌ 未找到服务: {service_name}")
                 return
             
-            log_file = self.base_dir / f"{service['service_name']}.log"
-            error_log_file = self.base_dir / f"{service['service_name']}.error.log"
+            log_file = self.logs_dir / f"{service['service_name']}.log"
+            error_log_file = self.logs_dir / f"{service['service_name']}.error.log"
             
             print(f"📜 {service['proxy_name']} 日志:")
             print("=" * 60)
@@ -227,7 +228,7 @@ class ProxyServiceManager:
             print("=" * 60)
             
             for service in services:
-                error_log_file = self.base_dir / f"{service['service_name']}.error.log"
+                error_log_file = self.logs_dir / f"{service['service_name']}.error.log"
                 if error_log_file.exists() and error_log_file.stat().st_size > 0:
                     print(f"\n--- {service['proxy_name']} ---")
                     try:
