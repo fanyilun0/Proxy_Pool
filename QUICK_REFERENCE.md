@@ -6,8 +6,8 @@
 # 1. 激活环境
 source venv/bin/activate
 
-# 2. 创建代理池（5个实例）
-python3 enhanced_proxy_manager.py --instances 5
+# 2. 创建代理池（默认开启所有代理实例）
+python3 enhanced_proxy_manager.py
 
 # 3. 查看服务状态
 python3 proxy_service_manager.py list
@@ -20,14 +20,14 @@ python3 proxy_service_manager.py list
 ### enhanced_proxy_manager.py (初始化)
 
 ```bash
-# 基础创建（10个实例）
+# 基础创建（开启所有代理实例）
 python3 enhanced_proxy_manager.py
 
-# 指定数量
+# 指定实例数量限制
 python3 enhanced_proxy_manager.py --instances 5
 
-# 快速模式（跳过测试）
-python3 enhanced_proxy_manager.py --no-test --instances 20
+# 快速模式（跳过测试，开启所有实例）
+python3 enhanced_proxy_manager.py --no-test
 ```
 
 ### proxy_service_manager.py (管理)
@@ -141,4 +141,39 @@ Safari    → 日本代理 (8020)
 爬虫任务  → 台湾代理
 流媒体    → 美国代理
 常规浏览  → 香港代理
+```
+
+## 🔧 高级使用技巧
+
+### 1. 批量代理测试
+
+```bash
+# 快速创建所有实例（跳过测试）
+python3 enhanced_proxy_manager.py --no-test
+
+# 限制创建数量（如只开启5个）
+python3 enhanced_proxy_manager.py --instances 5
+
+# 仅测试模式（不创建服务）
+python3 enhanced_proxy_manager.py --instances 0
+```
+
+## 📈 最佳实践
+
+### 1. 代理池规模建议
+- **轻度使用**: 建议限制为3-5个代理实例 (--instances 5)
+- **中度使用**: 建议限制为10-15个代理实例 (--instances 15)
+- **重度使用**: 可使用全部代理实例（默认）或限制数量 (--instances 30)
+
+### 快速参考
+```bash
+# 完整部署流程
+source venv/bin/activate
+python3 enhanced_proxy_manager.py  # 默认开启所有代理实例
+python3 proxy_service_manager.py list
+
+# 日常管理
+python3 proxy_service_manager.py list
+python3 proxy_service_manager.py restart
+python3 proxy_service_manager.py export
 ``` 

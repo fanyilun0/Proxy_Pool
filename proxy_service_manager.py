@@ -12,7 +12,12 @@ import argparse
 
 class ProxyServiceManager:
     def __init__(self, base_dir=None):
-        self.base_dir = Path(base_dir or Path.home() / "proxy_pool")
+        # 如果没有提供base_dir，优先使用当前目录，而非用户主目录
+        if base_dir is None:
+            current_dir = Path(__file__).parent.absolute()
+            self.base_dir = current_dir
+        else:
+            self.base_dir = Path(base_dir)
         self.services_file = self.base_dir / "services.json"
         self.logs_dir = self.base_dir / "logs"
         self.launch_agents_dir = Path.home() / "Library" / "LaunchAgents"
@@ -135,6 +140,35 @@ class ProxyServiceManager:
                 success_count += 1
             else:
                 print(f"❌ {service['proxy_name']}: {message}")
+        
+        # 额外的清理步骤
+        print("\n🧹 执行额外清理...")
+        
+        # 强制杀死可能残留的mihomo进程
+        try:
+            import subprocess
+            result = subprocess.run(['pgrep', '-f', 'mihomo'], capture_output=True, text=True)
+            if result.stdout.strip():
+                pids = result.stdout.strip().split('\n')
+                print(f"找到残留mihomo进程: {pids}")
+                for pid in pids:
+                    subprocess.run(['kill', '-9', pid], check=False)
+                    print(f"已杀死进程: {pid}")
+        except Exception as e:
+            print(f"清理进程时出错: {e}")
+        
+        # 清理LaunchAgent注册
+        try:
+            result = subprocess.run(['launchctl', 'list'], capture_output=True, text=True)
+            for line in result.stdout.split('\n'):
+                if 'com.proxypool' in line:
+                    parts = line.split()
+                    if len(parts) >= 3:
+                        service_id = parts[2]
+                        subprocess.run(['launchctl', 'remove', service_id], check=False)
+                        print(f"已清理服务注册: {service_id}")
+        except Exception as e:
+            print(f"清理服务注册时出错: {e}")
         
         print(f"\n📊 停止完成: {success_count}/{len(services)} 个服务")
     

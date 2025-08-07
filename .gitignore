@@ -1,3 +1,14 @@
 .env
 pycache/
+__pycache__/
 proxy_*/
+
+valid_providers
+*.yaml
+logs
+*.log
+ui/
+bin/*
+*.json
+cache.db
+GeoIP.dat

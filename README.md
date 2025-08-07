@@ -117,6 +117,12 @@ python3 tiqu.py
 
 怕不安全又不知道下载哪个？那就得靠自己努力一个一个试试！
 
+macos: 
+```
+ wget -O ~/proxy_pool/bin/mihomo https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/mihomo-darwin-arm64-alpha-e89af72.gz
+``` 
+
+
 下载完成以后打开`config`目录。修改`yaml`文件
 下面需要修改的地方，基本都是端口，每一个 yaml 文件的端口都不要重复。不然会出现端口冲突的提示，并且无法使用！
 
